@@ -6,6 +6,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Node
+node_modules/
+
 # Vercel
 .vercel
 

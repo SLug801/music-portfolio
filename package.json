@@ -1,0 +1,9 @@
+{
+  "name": "music-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "게임 음악 작곡가 포트폴리오",
+  "dependencies": {
+    "nodemailer": "^6.9.14"
+  }
+}
