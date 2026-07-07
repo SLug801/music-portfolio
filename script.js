@@ -3,9 +3,28 @@ const nav = document.getElementById('nav');
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
 
-window.addEventListener('scroll', () => {
+// 스크롤 스파이: 현재 보고 있는 섹션의 메뉴를 하이라이트
+const sections = Array.from(document.querySelectorAll('section[id]'));
+const spyLinks = Array.from(navLinks.querySelectorAll('a'));
+
+function onScroll() {
   nav.classList.toggle('scrolled', window.scrollY > 30);
-});
+
+  // 화면 위쪽 35% 지점을 기준선으로, 그 위에 시작된 섹션 중 가장 마지막을 현재 섹션으로
+  const line = window.scrollY + window.innerHeight * 0.35;
+  let currentId = '';
+  for (const sec of sections) {
+    if (sec.offsetTop <= line) currentId = sec.id;
+  }
+
+  spyLinks.forEach((a) => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + currentId);
+  });
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll);
+onScroll();
 
 navToggle.addEventListener('click', () => {
   navLinks.classList.toggle('open');
