@@ -78,25 +78,36 @@ document.querySelectorAll('.track__play').forEach((btn) => {
   });
 });
 
-// ===== 문의 폼: mailto로 전송 =====
+// ===== 문의 폼: 백엔드(/api/contact)로 전송 =====
 const form = document.getElementById('contactForm');
-const CONTACT_EMAIL = 'hello@example.com'; // ← 실제 이메일로 변경하세요
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const data = new FormData(form);
-  const name = data.get('name');
-  const email = data.get('email');
-  const type = data.get('type');
-  const message = data.get('message');
 
-  const subject = `[외주 문의] ${type} - ${name}`;
-  const body =
-    `이름/회사명: ${name}\n` +
-    `회신 이메일: ${email}\n` +
-    `프로젝트 유형: ${type}\n\n` +
-    `내용:\n${message}`;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const original = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = '전송 중...';
 
-  window.location.href =
-    `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  try {
+    const data = Object.fromEntries(new FormData(form));
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (res.ok) {
+      alert('문의가 정상적으로 전송되었습니다. 감사합니다!');
+      form.reset();
+    } else {
+      const info = await res.json().catch(() => ({}));
+      alert(info.error || '전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
+  } catch (err) {
+    alert('네트워크 오류로 전송하지 못했습니다. 잠시 후 다시 시도해주세요.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = original;
+  }
 });
