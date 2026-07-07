@@ -157,6 +157,8 @@ a { color: inherit; text-decoration: none; }
 /* ===== 소개 ===== */
 .about { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; }
 .about__text p { color: var(--muted); margin-bottom: 20px; }
+.about__text .about__small { font-size: 0.8rem; margin-bottom: 6px; opacity: 0.75; }
+.tiny { font-size: 0.1em; opacity: 0.25; }
 .about__text strong { color: var(--text); }
 .about__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 .about__tags li {
@@ -189,7 +191,7 @@ a { color: inherit; text-decoration: none; }
 .track__art--1 { background: linear-gradient(135deg, #7c5cff, #3a2c80); }
 .track__art--2 { background: linear-gradient(135deg, #ff5ca8, #802c50); }
 .track__art--3 { background: linear-gradient(135deg, #2cd8c5, #1a6b62); }
-.track__art--4 { background: linear-gradient(135deg, #4a90ff, #1a3a80); }
+.track__art--4 { background: linear-gradient(135deg, #464646, #000000); }
 .track__play {
   width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer;
   background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
@@ -198,6 +200,15 @@ a { color: inherit; text-decoration: none; }
 }
 .track__play:hover { transform: scale(1.1); background: rgba(255,255,255,0.3); }
 .track__play.playing { padding-left: 0; }
+.track--more { display: block; color: inherit; }
+.track__more-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
+  color: #fff; font-size: 1.6rem;
+  transition: transform 0.2s, background 0.2s;
+}
+.track--more:hover .track__more-icon { transform: scale(1.1); background: rgba(255,255,255,0.3); }
 .track__info { padding: 20px 22px; }
 .track__title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
 .track__meta { color: var(--muted); font-size: 0.85rem; }
