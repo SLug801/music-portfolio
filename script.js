@@ -149,7 +149,7 @@ function renderFiles() {
     fileNames.textContent = '여기로 파일을 끌어다 놓거나 클릭하세요';
     fileNames.classList.remove('over', 'has');
   } else {
-    fileNames.textContent = `${selectedFiles.length}개 · ${fmtSize(total)}` + (hasBig ? ' · 큰 파일은 드라이브 업로드' : '');
+    fileNames.textContent = `${selectedFiles.length}개 · ${fmtSize(total)}` + (hasBig ? ' · 큰 파일은 아래 링크란 이용' : '');
     fileNames.classList.remove('over');
     fileNames.classList.add('has');
   }
@@ -211,63 +211,24 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const submitBtn = form.querySelector('button[type="submit"]');
   const original = submitBtn.textContent;
+  const total = selectedFiles.reduce((s, f) => s + f.size, 0);
+  if (total > ATTACH_CAP) {
+    alert('첨부 파일 합계가 커서 메일로 못 보내요 (약 4MB까지).\n큰 파일(영상 등)은 구글 드라이브·위트랜스퍼 등에 올리고 "파일 링크"란에 공유 링크를 넣어주세요.');
+    return;
+  }
+
   submitBtn.disabled = true;
   submitBtn.textContent = '전송 중...';
 
   try {
-    // 파일 분류: 작은 것은 메일 첨부, 초과분/큰 것은 드라이브 업로드
-    let attachTotal = 0;
-    const toAttach = [];
-    const toBlob = [];
-    selectedFiles.forEach((f) => {
-      if (f.size <= ATTACH_CAP && attachTotal + f.size <= ATTACH_CAP) {
-        toAttach.push(f);
-        attachTotal += f.size;
-      } else {
-        toBlob.push(f);
-      }
-    });
-
-    // 큰 파일 → 드라이브(Blob) 직접 업로드
-    let links = [];
-    if (toBlob.length) {
-      if (typeof window.__blobUpload !== 'function') {
-        alert('대용량 업로드 준비가 안 됐어요. 잠시 후 다시 시도해주세요.');
-        submitBtn.disabled = false; submitBtn.textContent = original; return;
-      }
-      submitBtn.textContent = '업로드 중 0%';
-      const totalBytes = toBlob.reduce((s, f) => s + f.size, 0);
-      const loadedMap = new Array(toBlob.length).fill(0);
-      let shownPct = 0; // 뒤로 안 가게 (단조 증가)
-      try {
-        links = await Promise.all(toBlob.map(async (f, idx) => {
-          const blob = await window.__blobUpload(f, (ev) => {
-            loadedMap[idx] = typeof ev.loaded === 'number' ? ev.loaded : ((ev.percentage || 0) / 100) * f.size;
-            const loaded = loadedMap.reduce((a, b) => a + b, 0);
-            const pct = totalBytes ? Math.min(100, Math.round((loaded / totalBytes) * 100)) : 0;
-            if (pct > shownPct) {
-              shownPct = pct;
-              submitBtn.textContent = `업로드 중 ${shownPct}%`;
-            }
-          });
-          return { name: f.name, url: blob.url, size: f.size };
-        }));
-      } catch (err) {
-        console.error('Blob 업로드 실패:', err);
-        alert('큰 파일 업로드에 실패했어요.\n' + (err && err.message ? '원인: ' + err.message : '파일 스토리지(Blob) 설정을 확인해주세요.'));
-        submitBtn.disabled = false; submitBtn.textContent = original; return;
-      }
-      submitBtn.textContent = '전송 중...';
-    }
-
-    // 작은 파일 → base64 메일 첨부
-    const attachments = await Promise.all(toAttach.map(async (f) => ({
+    // 파일 → base64 메일 첨부 (작은 파일만)
+    const attachments = await Promise.all(selectedFiles.map(async (f) => ({
       filename: f.name,
       content: await readAsBase64(f),
       contentType: f.type || undefined,
     })));
 
-    const data = { ...Object.fromEntries(new FormData(form)), attachments, links };
+    const data = { ...Object.fromEntries(new FormData(form)), attachments };
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

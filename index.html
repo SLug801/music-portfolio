@@ -255,7 +255,7 @@
             <textarea name="message" rows="5" required placeholder="원하는 분위기, 예산, 일정 등을 자유롭게 적어주세요."></textarea>
           </label>
           <div class="field">
-            <span class="field-label">파일 첨부 <span class="label-opt">(모든 형식 · 드래그 또는 클릭)</span></span>
+            <span class="field-label">파일 첨부 <span class="label-opt">(작은 파일 · 합계 ~4MB · 드래그 또는 클릭)</span></span>
             <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="파일 첨부">
               <input type="file" id="contactFiles" multiple hidden />
               <span class="dropzone__icon" aria-hidden="true">⬇</span>
@@ -263,6 +263,9 @@
             </div>
             <ul class="file-list" id="fileList"></ul>
           </div>
+          <label>파일 링크 <span class="label-opt">(대용량 영상 등은 드라이브·위트랜스퍼 링크)</span>
+            <input type="url" name="filelink" placeholder="https://drive.google.com/... 또는 wetransfer 링크" />
+          </label>
           <button type="submit" class="btn btn--primary btn--full">문의 보내기</button>
         </form>
       </div>
@@ -300,20 +303,6 @@
     </div>
   </div>
 
-  <!-- Vercel Blob: 대용량 파일 브라우저 직접 업로드 -->
-  <script type="module">
-    import { upload } from 'https://esm.sh/@vercel/blob@2.6.1/client';
-    window.__blobUpload = (file, onProgress) => {
-      // 업로드 경로용 파일명 정리 (공백·괄호·한글 → 안전한 문자). 메일엔 원본 이름 사용.
-      const safeName = (file.name || 'file').replace(/[^\w.\-]+/g, '_').replace(/_+/g, '_');
-      return upload(safeName, file, {
-        access: 'public',
-        handleUploadUrl: '/api/upload',
-        multipart: false,
-        onUploadProgress: onProgress,
-      });
-    };
-  </script>
   <script src="script.js"></script>
 </body>
 </html>
