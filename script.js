@@ -129,7 +129,7 @@ const filesInput = document.getElementById('contactFiles');
 const dropzone = document.getElementById('dropzone');
 const fileNames = document.getElementById('fileNames');
 const fileList = document.getElementById('fileList');
-const MAX_TOTAL = 4 * 1024 * 1024; // 합계 4MB (메일 첨부 한계)
+const ATTACH_CAP = 3.5 * 1024 * 1024; // 이메일 첨부 총합 상한. 초과분/큰 파일은 드라이브로.
 let selectedFiles = [];
 
 const fmtSize = (b) => (b >= 1024 * 1024 ? (b / 1024 / 1024).toFixed(1) + 'MB' : Math.max(1, Math.round(b / 1024)) + 'KB');
@@ -143,15 +143,15 @@ function syncInput() {
 
 function renderFiles() {
   const total = selectedFiles.reduce((s, f) => s + f.size, 0);
-  const over = total > MAX_TOTAL;
+  const hasBig = total > ATTACH_CAP || selectedFiles.some((f) => f.size > ATTACH_CAP);
 
   if (!selectedFiles.length) {
     fileNames.textContent = '여기로 파일을 끌어다 놓거나 클릭하세요';
     fileNames.classList.remove('over', 'has');
   } else {
-    fileNames.textContent = `${selectedFiles.length}개 · ${fmtSize(total)}` + (over ? ' — 용량 초과' : '');
-    fileNames.classList.toggle('over', over);
-    fileNames.classList.toggle('has', !over);
+    fileNames.textContent = `${selectedFiles.length}개 · ${fmtSize(total)}` + (hasBig ? ' · 큰 파일은 드라이브 업로드' : '');
+    fileNames.classList.remove('over');
+    fileNames.classList.add('has');
   }
 
   fileList.innerHTML = '';
@@ -211,25 +211,51 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const submitBtn = form.querySelector('button[type="submit"]');
   const original = submitBtn.textContent;
-
-  const files = filesInput ? Array.from(filesInput.files) : [];
-  const total = files.reduce((s, f) => s + f.size, 0);
-  if (total > MAX_TOTAL) {
-    alert('첨부 파일 합계가 4MB를 넘어요.\n큰 영상은 링크(유튜브/드라이브 등)로 공유해주세요. 메일 첨부는 용량 제한이 있어요.');
-    return;
-  }
-
   submitBtn.disabled = true;
   submitBtn.textContent = '전송 중...';
 
   try {
-    const attachments = await Promise.all(files.map(async (f) => ({
+    // 파일 분류: 작은 것은 메일 첨부, 초과분/큰 것은 드라이브 업로드
+    let attachTotal = 0;
+    const toAttach = [];
+    const toBlob = [];
+    selectedFiles.forEach((f) => {
+      if (f.size <= ATTACH_CAP && attachTotal + f.size <= ATTACH_CAP) {
+        toAttach.push(f);
+        attachTotal += f.size;
+      } else {
+        toBlob.push(f);
+      }
+    });
+
+    // 큰 파일 → 드라이브(Blob) 직접 업로드
+    let links = [];
+    if (toBlob.length) {
+      if (typeof window.__blobUpload !== 'function') {
+        alert('대용량 업로드 준비가 안 됐어요. 잠시 후 다시 시도해주세요.');
+        submitBtn.disabled = false; submitBtn.textContent = original; return;
+      }
+      submitBtn.textContent = '파일 업로드 중...';
+      try {
+        links = await Promise.all(toBlob.map(async (f) => {
+          const blob = await window.__blobUpload(f);
+          return { name: f.name, url: blob.url, size: f.size };
+        }));
+      } catch (err) {
+        alert('큰 파일 업로드에 실패했어요.\n파일 스토리지(Blob) 설정이 필요할 수 있어요.');
+        submitBtn.disabled = false; submitBtn.textContent = original; return;
+      }
+      submitBtn.textContent = '전송 중...';
+    }
+
+    // 작은 파일 → base64 메일 첨부
+    const attachments = await Promise.all(toAttach.map(async (f) => ({
       filename: f.name,
       content: await readAsBase64(f),
       contentType: f.type || undefined,
     })));
 
-    const data = { ...Object.fromEntries(new FormData(form)), attachments };
+    const data = { ...Object.fromEntries(new FormData(form)), attachments, links };
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

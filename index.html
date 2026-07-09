@@ -300,6 +300,12 @@
     </div>
   </div>
 
+  <!-- Vercel Blob: 대용량 파일 브라우저 직접 업로드 -->
+  <script type="module">
+    import { upload } from 'https://esm.sh/@vercel/blob/client';
+    window.__blobUpload = (file) =>
+      upload(file.name, file, { access: 'public', handleUploadUrl: '/api/upload' });
+  </script>
   <script src="script.js"></script>
 </body>
 </html>
