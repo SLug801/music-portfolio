@@ -4,245 +4,292 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>유정열 | Game Music Composer</title>
-  <meta name="description" content="게임 음악 작곡가 유정열의 포트폴리오. 게임 BGM, 사운드 이펙트, 편곡 외주 및 커미션을 진행합니다." />
+  <meta name="description" content="게임 음악 작곡가 유정열의 포트폴리오. 게임 BGM, 사운드 이펙트, 편곡 외주 및 커미션." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- ===== 네비게이션 ===== -->
-  <header class="nav" id="nav">
-    <div class="nav__inner">
-      <a href="#home" class="nav__logo">유정열의 작곡세상<span>.music</span></a>
-      <nav class="nav__links" id="navLinks">
-        <a href="#about">소개</a>
-        <a href="#works">작업물</a>
-        <a href="#services">외주 안내</a>
-        <a href="#contact">문의</a>
+  <!-- ===== 상단 네비게이션 (최상단에서만) ===== -->
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a href="#home" class="topbar__logo">유정열의 작곡세상<span>.music</span></a>
+      <nav class="topbar__links" id="topbarLinks">
+        <a href="#about">About</a>
+        <a href="#works">Work</a>
+        <a href="#services">Commission</a>
+        <a href="#contact">Contact</a>
       </nav>
-      <button class="nav__toggle" id="navToggle" aria-label="메뉴 열기">☰</button>
+      <button class="topbar__toggle" id="navToggle" aria-label="메뉴 열기">☰</button>
     </div>
   </header>
 
+  <!-- ===== 좌측 스크롤 스파이 ===== -->
+  <nav class="sidenav" id="sidenav" aria-label="섹션 내비게이션">
+    <a href="#about"><span class="sidenav__i">01</span> About</a>
+    <a href="#works"><span class="sidenav__i">02</span> Work</a>
+    <a href="#services"><span class="sidenav__i">03</span> Commission</a>
+    <a href="#contact"><span class="sidenav__i">04</span> Contact</a>
+  </nav>
+
   <!-- ===== 히어로 ===== -->
   <section class="hero" id="home">
-    <div class="hero__bg" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <div class="hero__content">
-      <p class="hero__eyebrow">Sup · What's good</p>
-      <h1 class="hero__title">고객님 <em>얼마까지</em><br />알아보고 오셨어요</h1>
-      <p class="hero__desc">
-        A-yo<br />
-        Check the vibe mo'fuxxer
-      </p>
-      <div class="hero__cta">
-        <a href="#works" class="btn btn--primary">작업물</a>
-        <a href="#contact" class="btn btn--ghost">신청</a>
+    <div class="hero__inner">
+      <div class="hero__top">
+        <span class="mono">GAME MUSIC COMPOSER</span>
+        <span class="mono">EST. 2018 / SEOUL</span>
       </div>
-      <div class="hero__social">
-        <a href="https://www.youtube.com/@ryupassion" class="hero__social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 12s0-3.8-.5-5.6a2.9 2.9 0 0 0-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.4a2.9 2.9 0 0 0-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6a2.9 2.9 0 0 0 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.4a2.9 2.9 0 0 0 2-2C23 15.8 23 12 23 12Zm-13 3.5v-7l6 3.5-6 3.5Z"/></svg>
-        </a>
-        <a href="#" class="hero__social-link" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud" title="SoundCloud">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="2" y="11" width="1.7" height="5" rx=".85"/><rect x="5.3" y="9" width="1.7" height="7" rx=".85"/><rect x="8.6" y="7.5" width="1.7" height="8.5" rx=".85"/><rect x="11.9" y="9" width="1.7" height="7" rx=".85"/><path d="M15.5 8.2c.5-.2 1-.2 1.5-.2a4.5 4.5 0 0 1 4.5 4.5c0 .2 0 .4-.1.5H15.5V8.2Z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/10jeong__/" class="hero__social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>
-        </a>
+      <h1 class="hero__title">고객님 얼마까지<br />알아보고 오셨어요</h1>
+      <p class="hero__sub">게임의 세계관에 어울리는 BGM과 사운드를 만듭니다. 인디부터 상업 프로젝트까지.</p>
+      <div class="hero__bottom">
+        <div class="hero__cta">
+          <a href="#works" class="btn btn--primary">작업물 보기</a>
+          <a href="#contact" class="btn btn--ghost">외주 문의</a>
+        </div>
+        <div class="hero__social">
+          <a href="https://www.youtube.com/@ryupassion" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 12s0-3.8-.5-5.6a2.9 2.9 0 0 0-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.4a2.9 2.9 0 0 0-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6a2.9 2.9 0 0 0 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.4a2.9 2.9 0 0 0 2-2C23 15.8 23 12 23 12Zm-13 3.5v-7l6 3.5-6 3.5Z"/></svg>
+          </a>
+          <a href="#" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="2" y="11" width="1.7" height="5" rx=".85"/><rect x="5.3" y="9" width="1.7" height="7" rx=".85"/><rect x="8.6" y="7.5" width="1.7" height="8.5" rx=".85"/><rect x="11.9" y="9" width="1.7" height="7" rx=".85"/><path d="M15.5 8.2c.5-.2 1-.2 1.5-.2a4.5 4.5 0 0 1 4.5 4.5c0 .2 0 .4-.1.5H15.5V8.2Z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/10jeong__/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>
+          </a>
+        </div>
       </div>
     </div>
-    <a href="#about" class="hero__scroll" aria-label="아래로 스크롤">↓</a>
   </section>
 
   <!-- ===== 소개 ===== -->
   <section class="section" id="about">
-    <div class="container">
-      <p class="section__label">ABOUT</p>
-      <h2 class="section__title">헬로.</h2>
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <span class="mono sec-index">01 — About</span>
+        <h2 class="sec-title">헬로.</h2>
+      </header>
       <div class="about">
-        <div class="about__text">
-          <p>
-            안녕하세요, <strong>ㅇㅇㅇ</strong>입니다.
-            작곡해드림 뿌슝빠슝
-          </p>
-          <p>버클리 음대 <span class="tiny">견학</span></p>
-          <p>로스트아크 레온하트 테마 <span class="tiny">유튜브시청</span></p>
-          <p>겨울왕국 삽입곡<span class="tiny"> 좋아함</span></p>
-          <p>
-            BGM 사운드디자인 머시깽저시깽
-          </p>
-          <p>
-            규모랑 예산에 맞게 나도 설렁설렁한다잉
-          </p>
-          <p>
-            작은 개인 프로젝트도 환영 이런식의 소개
-          </p>
+        <div class="about__lead reveal">
+          <p>안녕하세요, <strong>유정열</strong>입니다. 게임 음악을 만듭니다. 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트  더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트  더미텍스트 더미텍스트 더미텍스트 더미텍스트  더미텍스트 더미텍스트  더미텍스트 더미텍스트 더미텍스트 더미텍스트  더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트.</p>
+          <p class="about__small">버클리 음대 <span class="tiny">견학</span> · 로스트아크 레온하트 테마 <span class="tiny">유튜브시청</span> · 겨울왕국 삽입곡 <span class="tiny">좋아함</span></p>
           <ul class="about__tags">
             <li>Orchestral</li>
             <li>Battle BGM</li>
             <li>Sound Design</li>
-            <li>뭐 이것저것 한다</li>
+            <li>Chiptune</li>
           </ul>
         </div>
-        <div class="about__stats">
-          <div class="stat"><span class="stat__num">100,000,000+ </span><span class="stat__label">완료 프로젝트</span></div>
-          <div class="stat"><span class="stat__num">30+ years</span><span class="stat__label">작곡 경력</span></div>
-          <div class="stat"><span class="stat__num">저작권 30%</span><span class="stat__label">
-            <p class="stat__sub">나도 먹고 살아야지</p>
-  </span>
-        </div>
+        <aside class="about__profile reveal">
+          <span class="mono profile__label">PROFILE</span>
+          <dl class="profile">
+            <div class="profile__row"><dt>이름</dt><dd>유정열</dd></div>
+            <div class="profile__row"><dt>직함</dt><dd>Game Music Composer</dd></div>
+            <div class="profile__row"><dt>이메일</dt><dd>jw7581171@gmail.com</dd></div>
+            <div class="profile__row"><dt>연락처</dt><dd>010-0000-0000</dd></div>
+            <div class="profile__row"><dt>위치</dt><dd>Seoul, KR</dd></div>
+          </dl>
+        </aside>
       </div>
     </div>
   </section>
 
   <!-- ===== 작업물 ===== -->
-  <section class="section section--alt" id="works">
-    <div class="container">
-      <p class="section__label">PORTFOLIO</p>
-      <h2 class="section__title">작업물</h2>
-      <p class="section__desc">보세요</p>
-
-      <div class="works" id="worksGrid">
-        <!-- 트랙 카드: audio src에 실제 음원 파일 경로를 넣으세요 (예: tracks/battle.mp3) -->
-        <article class="track">
-          <div class="track__art track__art--1">
-            <button class="track__play" data-audio="" aria-label="재생">▶</button>
-          </div>
-          <div class="track__info">
-            <h3 class="track__title">로스트 정열 — Main Theme</h3>
-            <p class="track__meta">Orchestral · RPG · 2025</p>
-          </div>
-        </article>
-
-        <article class="track">
-          <div class="track__art track__art--2">
-            <button class="track__play" data-audio="" aria-label="재생">▶</button>
-          </div>
-          <div class="track__info">
-            <h3 class="track__title">Sample — sample</h3>
-            <p class="track__meta">HeavyMetal · Action · 1950</p>
-          </div>
-        </article>
-
-        <article class="track">
-          <div class="track__art track__art--3">
-            <button class="track__play" data-audio="" aria-label="재생">▶</button>
-          </div>
-          <div class="track__info">
-            <h3 class="track__title">ㅇㅇ </h3>
-            <p class="track__meta">장르 · 게임장르 · 년도</p>
-          </div>
-        </article>
-        <a class="track track--more" href="https://www.youtube.com/@ryupassion" target="_blank" rel="noopener noreferrer">
-          <div class="track__art track__art--4">
-            <span class="track__more-icon" aria-hidden="true">→</span>
-          </div>
-          <div class="track__info">
-            <h3 class="track__title">더 들어보기</h3>
-            <p class="track__meta">유튜브로 이동</p>
-          </div>
+  <section class="section" id="works">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <span class="mono sec-index">02 — Work</span>
+        <h2 class="sec-title">Selected Work</h2>
+      </header>
+      <div class="works">
+        <div class="work reveal" role="button" tabindex="0"
+             data-title="로스트 정열 — Main Theme" data-meta="ORCHESTRAL / RPG / 2025"
+             data-desc="RPG 메인 테마. 웅장한 오케스트라 편성으로 세계관의 시작을 여는 곡. (설명은 나중에 교체하세요.)"
+             data-audio="" data-full="https://www.youtube.com/@ryupassion">
+          <span class="work__play" aria-hidden="true">▶</span>
+          <span class="work__index mono">01</span>
+          <h3 class="work__title">로스트 정열 — Main Theme</h3>
+          <span class="work__meta mono">ORCHESTRAL / RPG / 2025</span>
+        </div>
+        <div class="work reveal" role="button" tabindex="0"
+             data-title="Sample — sample" data-meta="HEAVY METAL / ACTION / 1950"
+             data-desc="샘플 설명 텍스트. 곡 소개, 사용된 악기, 제작 배경 등을 적으세요."
+             data-audio="" data-full="https://www.youtube.com/@ryupassion">
+          <span class="work__play" aria-hidden="true">▶</span>
+          <span class="work__index mono">02</span>
+          <h3 class="work__title">Sample — sample</h3>
+          <span class="work__meta mono">HEAVY METAL / ACTION / 1950</span>
+        </div>
+        <div class="work reveal" role="button" tabindex="0"
+             data-title="ㅇㅇ" data-meta="GENRE / GAME / YEAR"
+             data-desc="곡 설명 자리."
+             data-audio="" data-full="https://www.youtube.com/@ryupassion">
+          <span class="work__play" aria-hidden="true">▶</span>
+          <span class="work__index mono">03</span>
+          <h3 class="work__title">ㅇㅇ</h3>
+          <span class="work__meta mono">GENRE / GAME / YEAR</span>
+        </div>
+        <div class="work reveal" role="button" tabindex="0"
+             data-title="Untitled 04" data-meta="AMBIENT / ADVENTURE / 2024"
+             data-desc="곡 설명 자리."
+             data-audio="" data-full="https://www.youtube.com/@ryupassion">
+          <span class="work__play" aria-hidden="true">▶</span>
+          <span class="work__index mono">04</span>
+          <h3 class="work__title">Untitled 04</h3>
+          <span class="work__meta mono">AMBIENT / ADVENTURE / 2024</span>
+        </div>
+        <div class="work reveal" role="button" tabindex="0"
+             data-title="Untitled 05" data-meta="CHIPTUNE / PLATFORMER / 2023"
+             data-desc="곡 설명 자리."
+             data-audio="" data-full="https://www.youtube.com/@ryupassion">
+          <span class="work__play" aria-hidden="true">▶</span>
+          <span class="work__index mono">05</span>
+          <h3 class="work__title">Untitled 05</h3>
+          <span class="work__meta mono">CHIPTUNE / PLATFORMER / 2023</span>
+        </div>
+        <a class="work work--more reveal" href="https://www.youtube.com/@ryupassion" target="_blank" rel="noopener noreferrer">
+          <span class="work__play work__play--add" aria-hidden="true">+</span>
+          <span class="work__index mono">ALL</span>
+          <h3 class="work__title">더 들어보기</h3>
+          <span class="work__meta mono">YOUTUBE ↗</span>
         </a>
-
       </div>
     </div>
   </section>
 
   <!-- ===== 외주 안내 ===== -->
   <section class="section" id="services">
-    <div class="container">
-      <p class="section__label">COMMISSION</p>
-      <h2 class="section__title">외주 · 커미션 안내</h2>
-      <p class="section__desc">커미션 선택 가이드 상세견적은 문의에 OR 여기 적기 원하는방향으로</p>
-      <p class="section__desc">근데 뮬 보니깐 다 적어놓긴하더라</p>
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <span class="mono sec-index">03 — Commission</span>
+        <h2 class="sec-title">Commission</h2>
+      </header>
 
-      <div class="services">
-        <div class="service">
-          <div class="service__icon">🎵</div>
-          <h3>커미션</h3>
-          <p>들으면 눈물나는 브금 </p>
-          <p>안 들으면 나만 운다</p>
-
-          <p class="service__price">1초당 10,000 KRW</p>
+      <div class="commission">
+        <div class="plan reveal">
+          <div class="plan__head">
+            <h3>커미션</h3>
+           
+          </div>
+          <p class="plan__desc">들으면 눈물나는 브금. 안 들으면 나만 운다. 단일 트랙 단위로 제작합니다.</p>
+          <div class="plan__price"><span class="mono">10,000</span> KRW <em>/ 초</em></div>
         </div>
-        <div class="service service--featured">
-          <div class="service__badge">HOT</div>
-          <div class="service__icon">🎮</div>
-          <h3>외주</h3>
-          <p>이것저것</p>
-          <p>머시깽저시깽</p>
-          <p class="service__price">1초당 100,000KRW</p>
-        </div>
-        <div class="service">
-          <div class="service__icon">🎚️</div>
-          <h3>믹싱 · 마스터링</h3>
-          <p>믹</p>
-          <p>마</p>
-          <p class="service__price">건당 한남더힐1평</p>
+        <div class="plan reveal">
+          <div class="plan__head">
+            <h3>외주</h3>
+           
+          </div>
+          <p class="plan__desc">게임 한 편에 필요한 BGM 세트 + 사운드 이펙트를 통으로. 통일된 톤 유지.</p>
+          <div class="plan__price"><span class="mono">100,000</span> KRW <em>/ 초</em></div>
         </div>
       </div>
 
-      <div class="process">
+      <div class="process reveal">
         <h3 class="process__title">진행 방식</h3>
         <ol class="process__steps">
-          <li><span>1</span>문의 &amp; 레퍼런스 공유</li>
-          <li><span>2</span>견적<p class="stat__sub">고객님 맞을래요?</p></li>
-          <li><span>3</span>데모 제작</li>
-          <li><span>4</span>수정<p class="stat__sub">하는척</p></li>
-          <li><span>5</span>최종 납품</li>
+          <li class="pstep" tabindex="0">
+            <div class="pstep__num">1</div>
+            <div class="pstep__label">문의</div>
+            <div class="pstep__detail" role="tooltip">문의 &amp; 레퍼런스 공유</div>
+          </li>
+          <li class="parrow" aria-hidden="true">→</li>
+          <li class="pstep" tabindex="0">
+            <div class="pstep__num">2</div>
+            <div class="pstep__label">견적</div>
+            <div class="pstep__detail" role="tooltip">고객님 맞을래요?</div>
+          </li>
+          <li class="parrow" aria-hidden="true">→</li>
+          <li class="pstep" tabindex="0">
+            <div class="pstep__num">3</div>
+            <div class="pstep__label">데모</div>
+            <div class="pstep__detail" role="tooltip">데모 제작</div>
+          </li>
+          <li class="parrow" aria-hidden="true">→</li>
+          <li class="pstep" tabindex="0">
+            <div class="pstep__num">4</div>
+            <div class="pstep__label">수정</div>
+            <div class="pstep__detail" role="tooltip">하는 척</div>
+          </li>
+          <li class="parrow" aria-hidden="true">→</li>
+          <li class="pstep" tabindex="0">
+            <div class="pstep__num">5</div>
+            <div class="pstep__label">납품</div>
+            <div class="pstep__detail" role="tooltip">최종 납품</div>
+          </li>
         </ol>
       </div>
     </div>
   </section>
 
   <!-- ===== 문의 ===== -->
-  <section class="section section--alt" id="contact">
-    <div class="container container--narrow">
-      <p class="section__label">CONTACT</p>
-      <h2 class="section__title">외주 문의</h2>
-      <p class="section__desc">아래 폼을 작성하시면 기본 메일 앱으로 문의 내용이 정리됩니다.</p>
-
-      <form class="contact" id="contactForm">
-        <div class="contact__row">
-          <label>이름 / 회사명
-            <input type="text" name="name" required placeholder="홍길동 / 없으면 공백" />
-          </label>
-          <label>회신 이메일
-            <input type="email" name="email" required placeholder="pornhub.com" />
-          </label>
+  <section class="section" id="contact">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <span class="mono sec-index">04 — Contact</span>
+        <h2 class="sec-title">Let's talk.</h2>
+      </header>
+      <div class="contact-grid">
+        <div class="contact-aside reveal">
+          <p>프로젝트가 있거나, 그냥 궁금한 게 있어도 편하게 남겨주세요.</p>
+          <a class="contact-mail" href="mailto:jw7581171@gmail.com">jw7581171@gmail.com</a>
         </div>
-        <label>프로젝트 유형
-          <select name="type">
-            <option>커미션</option>
-            <option>외주</option>
-            <option>모시깽</option>
-            <option>저시깽</option>
-          </select>
-        </label>
-        <label>내용
-          <textarea name="message" rows="5" required placeholder="프로젝트 소개, 원하는 분위기, 예산, 일정 등을 자유롭게 적어주세요. 어차피 잘 안읽어요"></textarea>
-        </label>
-        <button type="submit" class="btn btn--primary btn--full">메일로 문의 보내기</button>
-      </form>
-
-      <p class="contact__direct">
-        또는 직접 연락 —
-        <a href="mailto:hello@example.com">폰허브.com</a>
-      </p>
+        <form class="contact reveal" id="contactForm">
+          <div class="contact__row">
+            <label>이름 / 회사명
+              <input type="text" name="name" required placeholder="홍길동 / 스튜디오" />
+            </label>
+            <label>회신 이메일
+              <input type="email" name="email" required placeholder="you@example.com" />
+            </label>
+          </div>
+          <label>프로젝트 유형
+            <select name="type">
+              <option>커미션</option>
+              <option>외주</option>
+              <option>편곡 · 리마스터</option>
+              <option>기타 / 상담</option>
+            </select>
+          </label>
+          <label>내용
+            <textarea name="message" rows="5" required placeholder="원하는 분위기, 예산, 일정 등을 자유롭게 적어주세요."></textarea>
+          </label>
+          <button type="submit" class="btn btn--primary btn--full">문의 보내기</button>
+        </form>
+      </div>
     </div>
   </section>
 
   <!-- ===== 푸터 ===== -->
   <footer class="footer">
-    <div class="container footer__inner">
-      <span>© 2025 유정열. All rights reserved.</span>
-      <div class="footer__social">
-        <a href="https://www.youtube.com/@ryupassion" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YouTube</a>
-        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud">SoundCloud</a>
-        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+    <div class="wrap footer__inner">
+      <a href="#home" class="footer__mark">유정열의 작곡세상<span>.music</span></a>
+      <div class="footer__links">
+        <a href="https://www.youtube.com/@ryupassion" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="#" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+        <a href="https://www.instagram.com/10jeong__/" target="_blank" rel="noopener noreferrer">Instagram</a>
       </div>
+      <span class="footer__copy mono">© 2026 YU JEONG-YEOL</span>
     </div>
   </footer>
+
+  <!-- ===== 작업물 모달 ===== -->
+  <div class="modal" id="workModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal__close" data-close aria-label="닫기">✕</button>
+      <span class="modal__meta mono" id="modalMeta"></span>
+      <h3 class="modal__title" id="modalTitle"></h3>
+      <div class="modal__player">
+        <button class="modal__play" id="modalPlay" aria-label="미리듣기 재생">▶</button>
+        <div class="modal__bar" id="modalBar"><div class="modal__fill" id="modalFill"></div></div>
+        <span class="modal__time mono" id="modalTime">0:00 / 0:30</span>
+      </div>
+      <p class="modal__hint mono" id="modalHint">30초 미리듣기</p>
+      <p class="modal__desc" id="modalDesc"></p>
+      <a class="modal__full" id="modalFull" target="_blank" rel="noopener noreferrer">풀버전 듣기 ↗</a>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

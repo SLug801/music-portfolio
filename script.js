@@ -1,81 +1,126 @@
-// ===== 네비게이션: 스크롤 시 배경, 모바일 토글 =====
-const nav = document.getElementById('nav');
+// ===== 네비게이션: 최상단=상단바, 스크롤 시=좌측 스파이 =====
+const sidenav = document.getElementById('sidenav');
 const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
+const topbarLinks = document.getElementById('topbarLinks');
 
-// 스크롤 스파이: 현재 보고 있는 섹션의 메뉴를 하이라이트
 const sections = Array.from(document.querySelectorAll('section[id]'));
-const spyLinks = Array.from(navLinks.querySelectorAll('a'));
+const spyLinks = Array.from(sidenav.querySelectorAll('a'));
 
 function onScroll() {
-  nav.classList.toggle('scrolled', window.scrollY > 30);
-
-  // 화면 위쪽 35% 지점을 기준선으로, 그 위에 시작된 섹션 중 가장 마지막을 현재 섹션으로
+  document.body.classList.toggle('scrolled', window.scrollY > 80);
   const line = window.scrollY + window.innerHeight * 0.35;
   let currentId = '';
   for (const sec of sections) {
     if (sec.offsetTop <= line) currentId = sec.id;
   }
-
   spyLinks.forEach((a) => {
     a.classList.toggle('active', a.getAttribute('href') === '#' + currentId);
   });
 }
-
 window.addEventListener('scroll', onScroll, { passive: true });
 window.addEventListener('resize', onScroll);
 onScroll();
 
-navToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
+navToggle.addEventListener('click', () => topbarLinks.classList.toggle('open'));
+topbarLinks.querySelectorAll('a').forEach((a) => {
+  a.addEventListener('click', () => topbarLinks.classList.remove('open'));
 });
 
-// 메뉴 링크 클릭 시 모바일 메뉴 닫기
-navLinks.querySelectorAll('a').forEach((a) => {
-  a.addEventListener('click', () => navLinks.classList.remove('open'));
-});
+// ===== 작업물 모달 + 30초 미리듣기 =====
+const modal = document.getElementById('workModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalMeta = document.getElementById('modalMeta');
+const modalDesc = document.getElementById('modalDesc');
+const modalFull = document.getElementById('modalFull');
+const modalPlay = document.getElementById('modalPlay');
+const modalFill = document.getElementById('modalFill');
+const modalTime = document.getElementById('modalTime');
+const modalHint = document.getElementById('modalHint');
+const PREVIEW_SECONDS = 30;
+let modalAudio = null;
 
-// ===== 오디오 플레이어 =====
-// 각 트랙 카드의 재생 버튼 data-audio 속성에 음원 경로를 넣으면 재생됩니다.
-let currentAudio = null;
-let currentBtn = null;
+const fmt = (t) => `0:${String(Math.max(0, Math.floor(t))).padStart(2, '0')}`;
 
-document.querySelectorAll('.track__play').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    const src = btn.dataset.audio;
+function stopModalAudio() {
+  if (modalAudio) { modalAudio.pause(); modalAudio.src = ''; modalAudio = null; }
+  modalPlay.textContent = '▶';
+  modalPlay.classList.remove('playing');
+  modalFill.style.width = '0%';
+  modalTime.textContent = `0:00 / ${fmt(PREVIEW_SECONDS)}`;
+}
 
-    // 음원이 아직 등록되지 않은 경우 안내
-    if (!src) {
-      alert('이 트랙에는 아직 음원이 연결되지 않았습니다.\nindex.html의 data-audio 속성에 음원 파일 경로를 넣어주세요.');
-      return;
-    }
+function openWorkModal(el) {
+  modalTitle.textContent = el.dataset.title || '';
+  modalMeta.textContent = el.dataset.meta || '';
+  modalDesc.textContent = el.dataset.desc || '';
+  modalFull.href = el.dataset.full || '#';
 
-    // 이미 재생 중인 버튼을 다시 누르면 정지
-    if (currentBtn === btn && currentAudio && !currentAudio.paused) {
-      currentAudio.pause();
-      btn.textContent = '▶';
-      btn.classList.remove('playing');
-      return;
-    }
+  stopModalAudio();
+  const src = el.dataset.audio || '';
+  modalPlay.disabled = !src;
+  modalPlay.dataset.src = src;
+  modalHint.textContent = src ? `${PREVIEW_SECONDS}초 미리듣기` : '미리듣기 준비중';
 
-    // 다른 트랙이 재생 중이면 정지
-    if (currentAudio) {
-      currentAudio.pause();
-      if (currentBtn) { currentBtn.textContent = '▶'; currentBtn.classList.remove('playing'); }
-    }
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
 
-    // 새 트랙 재생
-    currentAudio = new Audio(src);
-    currentBtn = btn;
-    currentAudio.play();
-    btn.textContent = '❚❚';
-    btn.classList.add('playing');
+function closeWorkModal() {
+  stopModalAudio();
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
 
-    currentAudio.addEventListener('ended', () => {
-      btn.textContent = '▶';
-      btn.classList.remove('playing');
-    });
+document.querySelectorAll('.work:not(.work--more)').forEach((w) => {
+  w.addEventListener('click', () => openWorkModal(w));
+  w.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openWorkModal(w); }
   });
+});
+
+modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeWorkModal));
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('open')) closeWorkModal();
+});
+
+modalPlay.addEventListener('click', () => {
+  const src = modalPlay.dataset.src;
+  if (!src) return;
+
+  if (modalAudio && !modalAudio.paused) {
+    modalAudio.pause();
+    modalPlay.textContent = '▶';
+    modalPlay.classList.remove('playing');
+    return;
+  }
+
+  if (!modalAudio) {
+    modalAudio = new Audio(src);
+    modalAudio.addEventListener('timeupdate', () => {
+      const t = modalAudio.currentTime;
+      if (t >= PREVIEW_SECONDS) {  // 30초에서 컷
+        modalAudio.pause();
+        modalAudio.currentTime = 0;
+        modalFill.style.width = '0%';
+        modalPlay.textContent = '▶';
+        modalPlay.classList.remove('playing');
+        modalTime.textContent = `0:00 / ${fmt(PREVIEW_SECONDS)}`;
+        return;
+      }
+      modalFill.style.width = (t / PREVIEW_SECONDS) * 100 + '%';
+      modalTime.textContent = `${fmt(t)} / ${fmt(PREVIEW_SECONDS)}`;
+    });
+    modalAudio.addEventListener('ended', () => {
+      modalPlay.textContent = '▶';
+      modalPlay.classList.remove('playing');
+      modalFill.style.width = '0%';
+    });
+  }
+  modalAudio.play();
+  modalPlay.textContent = '❚❚';
+  modalPlay.classList.add('playing');
 });
 
 // ===== 문의 폼: 백엔드(/api/contact)로 전송 =====
@@ -83,7 +128,6 @@ const form = document.getElementById('contactForm');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-
   const submitBtn = form.querySelector('button[type="submit"]');
   const original = submitBtn.textContent;
   submitBtn.disabled = true;
@@ -111,3 +155,21 @@ form.addEventListener('submit', async (e) => {
     submitBtn.textContent = original;
   }
 });
+
+// ===== 스크롤 리빌 =====
+const revealEls = document.querySelectorAll('.reveal');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (reduceMotion || !('IntersectionObserver' in window)) {
+  revealEls.forEach((el) => el.classList.add('is-in'));
+} else {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach((el) => io.observe(el));
+}

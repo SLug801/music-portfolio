@@ -14,3 +14,8 @@ node_modules/
 
 # Claude Code personal settings
 .claude/settings.local.json
+
+# Installed agent skills (dev tooling, not part of the site)
+.agents/
+.claude/skills/
+skills-lock.json

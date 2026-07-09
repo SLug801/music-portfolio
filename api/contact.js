@@ -1,12 +1,3 @@
-// Vercel 서버리스 함수: 문의 폼 → 내 Gmail로 발송
-// ⚠️ 아직 "연동 대기" 상태입니다. 실제로 작동시키려면:
-//   1) Gmail 2단계 인증 켜고 "앱 비밀번호" 발급
-//   2) Vercel 프로젝트 Settings → Environment Variables 에 아래 3개 등록
-//        GMAIL_USER          : 보내는 Gmail 주소 (예: me@gmail.com)
-//        GMAIL_APP_PASSWORD  : 위에서 발급한 16자리 앱 비밀번호 (공백 없이)
-//        TO_EMAIL            : 받을 주소 (안 넣으면 GMAIL_USER로 감)
-//   3) 프론트 폼을 mailto → fetch('/api/contact') 로 교체
-//   4) 재배포
 const nodemailer = require('nodemailer');
 
 // 발신/수신 Gmail 주소 (비밀번호가 아니라 그냥 주소라서 코드에 둬도 안전)
