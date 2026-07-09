@@ -235,10 +235,17 @@ form.addEventListener('submit', async (e) => {
         alert('대용량 업로드 준비가 안 됐어요. 잠시 후 다시 시도해주세요.');
         submitBtn.disabled = false; submitBtn.textContent = original; return;
       }
-      submitBtn.textContent = '파일 업로드 중...';
+      submitBtn.textContent = '업로드 중 0%';
+      const totalBytes = toBlob.reduce((s, f) => s + f.size, 0);
+      const loadedMap = new Array(toBlob.length).fill(0);
       try {
-        links = await Promise.all(toBlob.map(async (f) => {
-          const blob = await window.__blobUpload(f);
+        links = await Promise.all(toBlob.map(async (f, idx) => {
+          const blob = await window.__blobUpload(f, (ev) => {
+            loadedMap[idx] = typeof ev.loaded === 'number' ? ev.loaded : ((ev.percentage || 0) / 100) * f.size;
+            const loaded = loadedMap.reduce((a, b) => a + b, 0);
+            const pct = totalBytes ? Math.min(100, Math.round((loaded / totalBytes) * 100)) : 0;
+            submitBtn.textContent = `업로드 중 ${pct}%`;
+          });
           return { name: f.name, url: blob.url, size: f.size };
         }));
       } catch (err) {
