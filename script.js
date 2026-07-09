@@ -242,7 +242,8 @@ form.addEventListener('submit', async (e) => {
           return { name: f.name, url: blob.url, size: f.size };
         }));
       } catch (err) {
-        alert('큰 파일 업로드에 실패했어요.\n파일 스토리지(Blob) 설정이 필요할 수 있어요.');
+        console.error('Blob 업로드 실패:', err);
+        alert('큰 파일 업로드에 실패했어요.\n' + (err && err.message ? '원인: ' + err.message : '파일 스토리지(Blob) 설정을 확인해주세요.'));
         submitBtn.disabled = false; submitBtn.textContent = original; return;
       }
       submitBtn.textContent = '전송 중...';
