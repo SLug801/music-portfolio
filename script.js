@@ -123,18 +123,80 @@ modalPlay.addEventListener('click', () => {
   modalPlay.classList.add('playing');
 });
 
-// ===== 문의 폼: 백엔드(/api/contact)로 전송 =====
+// ===== 문의 폼: 파일 첨부 + 백엔드(/api/contact) 전송 =====
 const form = document.getElementById('contactForm');
+const filesInput = document.getElementById('contactFiles');
+const dropzone = document.getElementById('dropzone');
+const fileNames = document.getElementById('fileNames');
+const MAX_TOTAL = 4 * 1024 * 1024; // 합계 4MB (메일 첨부 한계)
+
+function updateFileInfo() {
+  const files = Array.from(filesInput.files);
+  if (!files.length) {
+    fileNames.textContent = '여기로 파일을 끌어다 놓거나 클릭하세요';
+    fileNames.classList.remove('over', 'has');
+    return;
+  }
+  const total = files.reduce((s, f) => s + f.size, 0);
+  const over = total > MAX_TOTAL;
+  fileNames.textContent = `${files.length}개 · ${(total / 1024 / 1024).toFixed(1)}MB` + (over ? ' — 용량 초과' : '');
+  fileNames.classList.toggle('over', over);
+  fileNames.classList.toggle('has', !over);
+}
+
+if (dropzone && filesInput) {
+  dropzone.addEventListener('click', () => filesInput.click());
+  dropzone.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); filesInput.click(); }
+  });
+  filesInput.addEventListener('change', updateFileInfo);
+
+  ['dragenter', 'dragover'].forEach((ev) =>
+    dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); })
+  );
+  ['dragleave', 'dragend'].forEach((ev) =>
+    dropzone.addEventListener(ev, () => dropzone.classList.remove('dragover'))
+  );
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    if (e.dataTransfer && e.dataTransfer.files.length) {
+      filesInput.files = e.dataTransfer.files;
+      updateFileInfo();
+    }
+  });
+}
+
+const readAsBase64 = (file) => new Promise((resolve, reject) => {
+  const r = new FileReader();
+  r.onload = () => resolve(String(r.result).split(',')[1]);
+  r.onerror = reject;
+  r.readAsDataURL(file);
+});
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const submitBtn = form.querySelector('button[type="submit"]');
   const original = submitBtn.textContent;
+
+  const files = filesInput ? Array.from(filesInput.files) : [];
+  const total = files.reduce((s, f) => s + f.size, 0);
+  if (total > MAX_TOTAL) {
+    alert('첨부 파일 합계가 4MB를 넘어요.\n큰 영상은 링크(유튜브/드라이브 등)로 공유해주세요. 메일 첨부는 용량 제한이 있어요.');
+    return;
+  }
+
   submitBtn.disabled = true;
   submitBtn.textContent = '전송 중...';
 
   try {
-    const data = Object.fromEntries(new FormData(form));
+    const attachments = await Promise.all(files.map(async (f) => ({
+      filename: f.name,
+      content: await readAsBase64(f),
+      contentType: f.type || undefined,
+    })));
+
+    const data = { ...Object.fromEntries(new FormData(form)), attachments };
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -144,6 +206,7 @@ form.addEventListener('submit', async (e) => {
     if (res.ok) {
       alert('문의가 정상적으로 전송되었습니다. 감사합니다!');
       form.reset();
+      if (fileNames) { fileNames.textContent = '선택된 파일 없음'; fileNames.classList.remove('over'); }
     } else {
       const info = await res.json().catch(() => ({}));
       alert(info.error || '전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
@@ -155,6 +218,28 @@ form.addEventListener('submit', async (e) => {
     submitBtn.textContent = original;
   }
 });
+
+// ===== 메일 주소 클릭 → 복사 =====
+const mailCopy = document.getElementById('mailCopy');
+if (mailCopy) {
+  mailCopy.addEventListener('click', async () => {
+    const email = mailCopy.dataset.email || mailCopy.textContent.trim();
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = email; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove();
+    }
+    const original = mailCopy.textContent;
+    mailCopy.textContent = '복사됨!';
+    mailCopy.classList.add('copied');
+    setTimeout(() => {
+      mailCopy.textContent = original;
+      mailCopy.classList.remove('copied');
+    }, 1400);
+  });
+}
 
 // ===== 스크롤 리빌 =====
 const revealEls = document.querySelectorAll('.reveal');

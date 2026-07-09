@@ -9,10 +9,22 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { name, email, type, message } = req.body || {};
+  const { name, email, type, message, attachments } = req.body || {};
   if (!name || !email || !message) {
     return res.status(400).json({ error: '필수 항목이 비었습니다.' });
   }
+
+  // 프론트에서 base64로 보낸 첨부파일 → Nodemailer 형식으로 변환
+  const mailAttachments = Array.isArray(attachments)
+    ? attachments
+        .filter((a) => a && a.filename && a.content)
+        .map((a) => ({
+          filename: a.filename,
+          content: a.content,
+          encoding: 'base64',
+          contentType: a.contentType || undefined,
+        }))
+    : [];
 
   // 앱 비밀번호(환경변수)가 아직 없으면 = 연동 전. 안전하게 막아둠
   if (!process.env.GMAIL_APP_PASSWORD) {
@@ -36,8 +48,10 @@ module.exports = async function handler(req, res) {
       text:
         `이름/회사명: ${name}\n` +
         `회신 이메일: ${email}\n` +
-        `프로젝트 유형: ${type || '-'}\n\n` +
+        `프로젝트 유형: ${type || '-'}\n` +
+        `첨부파일: ${mailAttachments.length}개\n\n` +
         `내용:\n${message}`,
+      attachments: mailAttachments,
     });
 
     return res.status(200).json({ ok: true });
