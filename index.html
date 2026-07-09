@@ -254,13 +254,15 @@
           <label>내용
             <textarea name="message" rows="5" required placeholder="원하는 분위기, 예산, 일정 등을 자유롭게 적어주세요."></textarea>
           </label>
-          <label>파일 첨부 <span class="label-opt">(모든 형식 · 드래그 또는 클릭)</span>
+          <div class="field">
+            <span class="field-label">파일 첨부 <span class="label-opt">(모든 형식 · 드래그 또는 클릭)</span></span>
             <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="파일 첨부">
               <input type="file" id="contactFiles" multiple hidden />
               <span class="dropzone__icon" aria-hidden="true">⬇</span>
               <span class="dropzone__text" id="fileNames">여기로 파일을 끌어다 놓거나 클릭하세요</span>
             </div>
-          </label>
+            <ul class="file-list" id="fileList"></ul>
+          </div>
           <button type="submit" class="btn btn--primary btn--full">문의 보내기</button>
         </form>
       </div>

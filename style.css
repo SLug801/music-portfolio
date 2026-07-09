@@ -279,6 +279,24 @@ body.scrolled .sidenav { opacity: 1; pointer-events: auto; transform: translateY
 .dropzone__text.over { color: #ff6b6b; }
 .dropzone__text.has { color: var(--fg); }
 
+.field { display: flex; flex-direction: column; gap: 10px; }
+.field-label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+
+.file-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.file-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 6px; font-size: 0.85rem; font-family: var(--font-sans);
+}
+.file-item__name { color: var(--fg); word-break: break-all; }
+.file-item__size { color: var(--muted); font-size: 0.78rem; margin-left: auto; white-space: nowrap; }
+.file-item__remove {
+  flex: none; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line-2);
+  background: transparent; color: var(--muted); cursor: pointer; font-size: 0.72rem; line-height: 1;
+  transition: border-color 0.2s, color 0.2s;
+}
+.file-item__remove:hover { border-color: #ff6b6b; color: #ff6b6b; }
+
 /* ===== 푸터 ===== */
 .footer { padding: clamp(50px, 7vw, 90px) 0; }
 .footer__inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }

@@ -128,20 +128,56 @@ const form = document.getElementById('contactForm');
 const filesInput = document.getElementById('contactFiles');
 const dropzone = document.getElementById('dropzone');
 const fileNames = document.getElementById('fileNames');
+const fileList = document.getElementById('fileList');
 const MAX_TOTAL = 4 * 1024 * 1024; // 합계 4MB (메일 첨부 한계)
+let selectedFiles = [];
 
-function updateFileInfo() {
-  const files = Array.from(filesInput.files);
-  if (!files.length) {
+const fmtSize = (b) => (b >= 1024 * 1024 ? (b / 1024 / 1024).toFixed(1) + 'MB' : Math.max(1, Math.round(b / 1024)) + 'KB');
+
+// selectedFiles 배열을 실제 input.files와 동기화
+function syncInput() {
+  const dt = new DataTransfer();
+  selectedFiles.forEach((f) => dt.items.add(f));
+  filesInput.files = dt.files;
+}
+
+function renderFiles() {
+  const total = selectedFiles.reduce((s, f) => s + f.size, 0);
+  const over = total > MAX_TOTAL;
+
+  if (!selectedFiles.length) {
     fileNames.textContent = '여기로 파일을 끌어다 놓거나 클릭하세요';
     fileNames.classList.remove('over', 'has');
-    return;
+  } else {
+    fileNames.textContent = `${selectedFiles.length}개 · ${fmtSize(total)}` + (over ? ' — 용량 초과' : '');
+    fileNames.classList.toggle('over', over);
+    fileNames.classList.toggle('has', !over);
   }
-  const total = files.reduce((s, f) => s + f.size, 0);
-  const over = total > MAX_TOTAL;
-  fileNames.textContent = `${files.length}개 · ${(total / 1024 / 1024).toFixed(1)}MB` + (over ? ' — 용량 초과' : '');
-  fileNames.classList.toggle('over', over);
-  fileNames.classList.toggle('has', !over);
+
+  fileList.innerHTML = '';
+  selectedFiles.forEach((f, i) => {
+    const li = document.createElement('li');
+    li.className = 'file-item';
+    li.innerHTML = '<span class="file-item__name"></span><span class="file-item__size"></span><button type="button" class="file-item__remove" aria-label="삭제">✕</button>';
+    li.querySelector('.file-item__name').textContent = f.name;
+    li.querySelector('.file-item__size').textContent = fmtSize(f.size);
+    li.querySelector('.file-item__remove').addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectedFiles.splice(i, 1);
+      syncInput();
+      renderFiles();
+    });
+    fileList.appendChild(li);
+  });
+}
+
+function addFiles(list) {
+  Array.from(list).forEach((f) => {
+    const dup = selectedFiles.some((x) => x.name === f.name && x.size === f.size && x.lastModified === f.lastModified);
+    if (!dup) selectedFiles.push(f);
+  });
+  syncInput();
+  renderFiles();
 }
 
 if (dropzone && filesInput) {
@@ -149,7 +185,7 @@ if (dropzone && filesInput) {
   dropzone.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); filesInput.click(); }
   });
-  filesInput.addEventListener('change', updateFileInfo);
+  filesInput.addEventListener('change', () => addFiles(filesInput.files));
 
   ['dragenter', 'dragover'].forEach((ev) =>
     dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); })
@@ -160,10 +196,7 @@ if (dropzone && filesInput) {
   dropzone.addEventListener('drop', (e) => {
     e.preventDefault();
     dropzone.classList.remove('dragover');
-    if (e.dataTransfer && e.dataTransfer.files.length) {
-      filesInput.files = e.dataTransfer.files;
-      updateFileInfo();
-    }
+    if (e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
   });
 }
 
@@ -206,7 +239,9 @@ form.addEventListener('submit', async (e) => {
     if (res.ok) {
       alert('문의가 정상적으로 전송되었습니다. 감사합니다!');
       form.reset();
-      if (fileNames) { fileNames.textContent = '선택된 파일 없음'; fileNames.classList.remove('over'); }
+      selectedFiles = [];
+      syncInput();
+      renderFiles();
     } else {
       const info = await res.json().catch(() => ({}));
       alert(info.error || '전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
