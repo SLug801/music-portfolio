@@ -303,8 +303,16 @@
   <!-- Vercel Blob: 대용량 파일 브라우저 직접 업로드 -->
   <script type="module">
     import { upload } from 'https://esm.sh/@vercel/blob/client';
-    window.__blobUpload = (file, onProgress) =>
-      upload(file.name, file, { access: 'public', handleUploadUrl: '/api/upload', multipart: true, onUploadProgress: onProgress });
+    window.__blobUpload = (file, onProgress) => {
+      // 업로드 경로용 파일명 정리 (공백·괄호·한글 → 안전한 문자). 메일엔 원본 이름 사용.
+      const safeName = (file.name || 'file').replace(/[^\w.\-]+/g, '_').replace(/_+/g, '_');
+      return upload(safeName, file, {
+        access: 'public',
+        handleUploadUrl: '/api/upload',
+        multipart: false,
+        onUploadProgress: onProgress,
+      });
+    };
   </script>
   <script src="script.js"></script>
 </body>
