@@ -13,10 +13,17 @@ module.exports = async function handler(req, res) {
     return res.status(503).json({ error: '파일 스토리지가 아직 설정되지 않았습니다. (Blob 스토어 생성 필요)' });
   }
 
+  // Vercel 함수가 JSON 바디를 문자열로 줄 때 대비
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch (e) { /* ignore */ }
+  }
+
   try {
     const jsonResponse = await handleUpload({
+      token: process.env.BLOB_READ_WRITE_TOKEN, // OIDC 대신 정적 토큰 강제 사용
       request: req,
-      body: req.body,
+      body,
       onBeforeGenerateToken: async () => ({
         addRandomSuffix: true,
         maximumSizeInBytes: 500 * 1024 * 1024, // 파일당 최대 500MB
