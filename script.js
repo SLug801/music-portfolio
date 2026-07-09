@@ -238,13 +238,17 @@ form.addEventListener('submit', async (e) => {
       submitBtn.textContent = '업로드 중 0%';
       const totalBytes = toBlob.reduce((s, f) => s + f.size, 0);
       const loadedMap = new Array(toBlob.length).fill(0);
+      let shownPct = 0; // 뒤로 안 가게 (단조 증가)
       try {
         links = await Promise.all(toBlob.map(async (f, idx) => {
           const blob = await window.__blobUpload(f, (ev) => {
             loadedMap[idx] = typeof ev.loaded === 'number' ? ev.loaded : ((ev.percentage || 0) / 100) * f.size;
             const loaded = loadedMap.reduce((a, b) => a + b, 0);
             const pct = totalBytes ? Math.min(100, Math.round((loaded / totalBytes) * 100)) : 0;
-            submitBtn.textContent = `업로드 중 ${pct}%`;
+            if (pct > shownPct) {
+              shownPct = pct;
+              submitBtn.textContent = `업로드 중 ${shownPct}%`;
+            }
           });
           return { name: f.name, url: blob.url, size: f.size };
         }));
