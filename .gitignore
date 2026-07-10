@@ -6,8 +6,10 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Node
+# Node / Next.js
 node_modules/
+.next/
+next-env.d.ts
 
 # Vercel
 .vercel
