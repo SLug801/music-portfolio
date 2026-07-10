@@ -357,7 +357,7 @@ export default function Home() {
         <div className="wrap">
           <header className="sec-head reveal">
             <span className="mono sec-index">01 — About</span>
-            <h2 className="sec-title">Hello.</h2>
+            <h2 className="sec-title">Hello</h2>
           </header>
           <div className="about">
             <div className="about__lead reveal">
@@ -391,17 +391,17 @@ export default function Home() {
           </header>
           <div className="works">
             <div className="work reveal" role="button" tabIndex={0}
-              data-title="로스트 정열 — Main Theme" data-meta="ORCHESTRAL / RPG / 2025"
-              data-desc="RPG 메인 테마. 웅장한 오케스트라 편성으로 세계관의 시작을 여는 곡. (설명은 나중에 교체하세요.)"
+              data-title="Lost Ark — Main Theme" data-meta="ORCHESTRAL / RPG / 2025"
+              data-desc="RPG 메인 테마. 웅장한 오케스트라 편성으로 세계관의 시작을 여는 곡."
               data-audio="" data-full="https://www.youtube.com/@ryupassion">
               <span className="work__play" aria-hidden="true">▶</span>
               <span className="work__index mono">01</span>
-              <h3 className="work__title">로스트 정열 — Main Theme</h3>
+              <h3 className="work__title"> LostArk — Main Theme</h3>
               <span className="work__meta mono">ORCHESTRAL / RPG / 2025</span>
             </div>
             <div className="work reveal" role="button" tabIndex={0}
               data-title="Sample — sample" data-meta="HEAVY METAL / ACTION / 1950"
-              data-desc="샘플 설명 텍스트. 곡 소개, 사용된 악기, 제작 배경 등을 적으세요."
+              data-desc="곡 설명 자리."
               data-audio="" data-full="https://www.youtube.com/@ryupassion">
               <span className="work__play" aria-hidden="true">▶</span>
               <span className="work__index mono">02</span>
@@ -414,7 +414,7 @@ export default function Home() {
               data-audio="" data-full="https://www.youtube.com/@ryupassion">
               <span className="work__play" aria-hidden="true">▶</span>
               <span className="work__index mono">03</span>
-              <h3 className="work__title">ㅇㅇ</h3>
+              <h3 className="work__title">Tekken7</h3>
               <span className="work__meta mono">GENRE / GAME / YEAR</span>
             </div>
             <div className="work reveal" role="button" tabIndex={0}
@@ -508,8 +508,10 @@ export default function Home() {
           </header>
           <div className="contact-grid">
             <div className="contact-aside reveal">
-              <p>더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트 더미텍스트</p>
-              <button type="button" className="contact-mail" id="mailCopy" data-email="jw7581171@gmail.com">jw7581171@gmail.com</button>
+              <button type="button" className="contact-mail" id="mailCopy" data-email="jw7581171@gmail.com">jw7581171@gmail.com</button> 
+              <p></p>
+              <p>it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+              
             </div>
             <form className="contact reveal" id="contactForm">
               <div className="contact__row">
