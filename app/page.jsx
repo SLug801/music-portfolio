@@ -130,7 +130,7 @@ export default function Home() {
         fileNames.textContent = '여기로 파일을 끌어다 놓거나 클릭하세요';
         fileNames.classList.remove('over', 'has');
       } else {
-        fileNames.textContent = `${selectedFiles.length}개 · ${fmtSize(total)}` + (hasBig ? ' · 큰 파일은 드라이브 자동 업로드' : '');
+        fileNames.textContent = `${selectedFiles.length}개 · ${fmtSize(total)}` + (hasBig ? ' · 파일 업로드 됨.' : '');
         fileNames.classList.remove('over');
         fileNames.classList.add('has');
       }
@@ -542,9 +542,6 @@ export default function Home() {
                 </div>
                 <ul className="file-list" id="fileList"></ul>
               </div>
-              <label>파일 링크 <span className="label-opt">(선택 · 드라이브·위트랜스퍼 링크)</span>
-                <input type="url" name="filelink" placeholder="https://drive.google.com/... (선택)" />
-              </label>
               <button type="submit" className="btn btn--primary btn--full">문의 보내기</button>
             </form>
           </div>
