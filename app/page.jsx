@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { upload } from '@vercel/blob/client';
 
 export default function Home() {
   useEffect(() => {
@@ -206,22 +205,39 @@ export default function Home() {
           let shownPct = 0;
           try {
             links = await Promise.all(toBlob.map(async (f, idx) => {
-              const safeName = (f.name || 'file').replace(/[^\w.\-]+/g, '_').replace(/_+/g, '_');
-              const blob = await upload(safeName, f, {
-                access: 'public',
-                handleUploadUrl: '/api/upload',
-                multipart: true,
-                onUploadProgress: (ev) => {
-                  loadedMap[idx] = typeof ev.loaded === 'number' ? ev.loaded : ((ev.percentage || 0) / 100) * f.size;
+              // 1) 서버에서 R2 presigned PUT URL 발급
+              const presignRes = await fetch('/api/upload', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename: f.name, contentType: f.type || 'application/octet-stream' }),
+              });
+              if (!presignRes.ok) {
+                const info = await presignRes.json().catch(() => ({}));
+                throw new Error(info.error || '업로드 URL 발급 실패');
+              }
+              const { uploadUrl, publicUrl } = await presignRes.json();
+
+              // 2) 파일을 R2에 직접 PUT (XHR로 진행률 표시)
+              await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('PUT', uploadUrl);
+                if (f.type) xhr.setRequestHeader('Content-Type', f.type);
+                xhr.upload.onprogress = (ev) => {
+                  if (!ev.lengthComputable) return;
+                  loadedMap[idx] = ev.loaded;
                   const loaded = loadedMap.reduce((a, b) => a + b, 0);
                   const pct = totalBytes ? Math.min(100, Math.round((loaded / totalBytes) * 100)) : 0;
                   if (pct > shownPct) { shownPct = pct; submitBtn.textContent = `업로드 중 ${pct}%`; }
-                },
+                };
+                xhr.onload = () => (xhr.status >= 200 && xhr.status < 300) ? resolve() : reject(new Error('업로드 실패 (' + xhr.status + ')'));
+                xhr.onerror = () => reject(new Error('네트워크 오류 (R2 CORS 설정을 확인하세요)'));
+                xhr.send(f);
               });
-              return { name: f.name, url: blob.url, size: f.size };
+
+              return { name: f.name, url: publicUrl, size: f.size };
             }));
           } catch (err) {
-            console.error('Blob 업로드 실패:', err);
+            console.error('파일 업로드 실패:', err);
             alert('큰 파일 업로드에 실패했어요.\n' + (err && err.message ? '원인: ' + err.message : ''));
             submitBtn.disabled = false; submitBtn.textContent = original; return;
           }
