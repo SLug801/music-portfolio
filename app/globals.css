@@ -89,7 +89,7 @@ body.scrolled .topbar { opacity: 0; transform: translateY(-100%); pointer-events
 body.scrolled .sidenav { opacity: 1; pointer-events: auto; transform: translateY(-50%) translateX(0); }
 .sidenav a {
   position: relative; display: flex; align-items: center; gap: 9px;
-  font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase;
+  font-family: var(--font-mono); font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase;
   color: var(--muted); transition: color 0.2s;
 }
 .sidenav a:hover { color: var(--fg); }
@@ -141,7 +141,7 @@ body.scrolled .sidenav { opacity: 1; pointer-events: auto; transform: translateY
 /* ===== 섹션 공통 ===== */
 .section { padding: clamp(90px, 14vw, 170px) 0; border-bottom: 1px solid var(--line); }
 .sec-head { margin-bottom: clamp(44px, 6vw, 80px); }
-.sec-index { display: block; font-size: 0.74rem; color: var(--accent); margin-bottom: 18px; }
+.sec-index { display: block; font-size: 0.9rem; color: var(--accent); margin-bottom: 18px; }
 .sec-title {
   font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
   font-size: clamp(1.6rem, 3.6vw, 2.9rem); line-height: 1.0; letter-spacing: -0.02em;
@@ -155,7 +155,7 @@ body.scrolled .sidenav { opacity: 1; pointer-events: auto; transform: translateY
 .tiny { font-size: 0.1em; opacity: 0.25; }
 .about__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
 .about__tags li {
-  font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em;
+  font-family: var(--font-mono); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em;
   padding: 8px 14px; border: 1px solid var(--line); border-radius: 3px; color: var(--fg);
 }
 .about__profile {

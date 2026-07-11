@@ -344,7 +344,7 @@ export default function Home() {
       <section className="hero" id="home">
         <div className="hero__inner">
           <div className="hero__top">
-            <span className="mono">GAME MUSIC COMPOSER</span>
+            <span className="mono">BGM & MUSIC COMPOSER</span>
             <span className="mono">EST. 2026 / SEOUL</span>
           </div>
           <h1 className="hero__title">High - Quallity<br />BGM Composer.</h1>
