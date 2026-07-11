@@ -325,20 +325,20 @@ export default function Home() {
         <div className="topbar__inner">
           <a href="#home" className="topbar__logo">Sample<span>.music</span></a>
           <nav className="topbar__links" id="topbarLinks">
-            <a href="#about">About</a>
-            <a href="#works">Work</a>
-            <a href="#services">Commission</a>
-            <a href="#contact">Contact</a>
+            <a href="#about">소개</a>
+            <a href="#works">작업물</a>
+            <a href="#services">안내</a>
+            <a href="#contact">문의 / 신청</a>
           </nav>
           <button className="topbar__toggle" id="navToggle" aria-label="메뉴 열기">☰</button>
         </div>
       </header>
 
       <nav className="sidenav" id="sidenav" aria-label="섹션 내비게이션">
-        <a href="#about"><span className="sidenav__i">01</span> About</a>
-        <a href="#works"><span className="sidenav__i">02</span> Work</a>
-        <a href="#services"><span className="sidenav__i">03</span> Commission</a>
-        <a href="#contact"><span className="sidenav__i">04</span> Contact</a>
+        <a href="#about"><span className="sidenav__i">01</span> 소개</a>
+        <a href="#works"><span className="sidenav__i">02</span> 작업물</a>
+        <a href="#services"><span className="sidenav__i">03</span> 안내</a>
+        <a href="#contact"><span className="sidenav__i">04</span> 문의 / 신청</a>
       </nav>
 
       <section className="hero" id="home">
@@ -348,7 +348,8 @@ export default function Home() {
             <span className="mono">EST. 2026 / SEOUL</span>
           </div>
           <h1 className="hero__title">High - Quallity<br />BGM Composer.</h1>
-          <p className="hero__sub">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p className="hero__sub">오케스트라를 중심으로 애니메이션, 게임, 영화, 광고 등
+                다양한 영상 콘텐츠를 위한 음악을 작곡하고 있습니다.</p>
           <div className="hero__bottom">
             <div className="hero__cta">
               <a href="#works" className="btn btn--primary">작업물 보기</a>
@@ -372,27 +373,37 @@ export default function Home() {
       <section className="section" id="about">
         <div className="wrap">
           <header className="sec-head reveal">
-            <span className="mono sec-index">01 — About</span>
-            <h2 className="sec-title">Hello</h2>
+            <span className="mono sec-index">01 — 소개</span>
+            <h2 className="sec-title">About</h2>
           </header>
           <div className="about">
             <div className="about__lead reveal">
-              <p>It is a long <strong>established</strong> act that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &apos;Content here, content here&apos;, making it look like readable English.</p>
-              <p className="about__small">CSS · OpenCV · Json · claudesonnet</p>
+              <p>
+                안녕하세요. 작곡가 <strong>유정열</strong>입니다.<br />
+                오케스트라를 중심으로 <strong>애니메이션, 게임, 영화, 광고 </strong>등<br />
+                다양한 <strong>영상 콘텐츠</strong>를 위한 음악을 작곡하고 있습니다.<br />
+                작품이 전하고자 하는 메시지를 더욱 깊이 전달할 수 있도록<br />
+                새로운 사운드와 표현을 끊임없이 연구하며 도전하고 있습니다.<br />
+                어제보다 더 나은 내일을 위해 끊임없이 배우고 성장하며,<br />
+                한 곡 한 곡에 진심을 담아 최고의 음악을 만들어가겠습니다.
+              </p>
               <ul className="about__tags">
                 <li>Orchestral</li>
                 <li>BGM</li>
-                <li>Sound Design</li>
+                <li>Animation</li>
+                <li>Game</li>
+                <li>Movie</li>
+                <li>advertisement</li>
+          
               </ul>
             </div>
             <aside className="about__profile reveal">
               <span className="mono profile__label">PROFILE</span>
               <dl className="profile">
-                <div className="profile__row"><dt>Name</dt><dd>OjO</dd></div>
-                <div className="profile__row"><dt>text</dt><dd>text</dd></div>
-                <div className="profile__row"><dt>E mail</dt><dd>text@gmail.com</dd></div>
-                <div className="profile__row"><dt>Phone</dt><dd>010-0000-0000</dd></div>
-                <div className="profile__row"><dt>LOC</dt><dd>Suwon, KR</dd></div>
+                <div className="profile__row"><dt>Name / Nickname</dt><dd>유정열 / 0000</dd></div>
+                <div className="profile__row"><dt>E mail</dt><dd>ryupassion98@gmail.com</dd></div>
+                <div className="profile__row"><dt>Phone</dt><dd>010-2553-4594</dd></div>
+                <div className="profile__row"><dt>Birth</dt><dd>1998.11.08</dd></div>
               </dl>
             </aside>
           </div>
@@ -402,8 +413,8 @@ export default function Home() {
       <section className="section" id="works">
         <div className="wrap">
           <header className="sec-head reveal">
-            <span className="mono sec-index">02 — Work</span>
-            <h2 className="sec-title">Selected Work</h2>
+            <span className="mono sec-index">02 — 작업물</span>
+            <h2 className="sec-title">Portfolio</h2>
           </header>
           <div className="works">
             <div className="work reveal" role="button" tabIndex={0}
@@ -464,7 +475,7 @@ export default function Home() {
       <section className="section" id="services">
         <div className="wrap">
           <header className="sec-head reveal">
-            <span className="mono sec-index">03 — Commission</span>
+            <span className="mono sec-index">03 — 안내</span>
             <h2 className="sec-title">Commission</h2>
           </header>
           <div className="commission">
@@ -485,31 +496,45 @@ export default function Home() {
               <li className="pstep" tabIndex={0}>
                 <div className="pstep__num">1</div>
                 <div className="pstep__label">문의</div>
-                <div className="pstep__detail" role="tooltip">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</div>
+                <div className="pstep__detail" role="tooltip"><strong>상담 및 작업 안내</strong><br />
+                <br />
+                모든 작업은 상담을 통해 견적, 작업 범위, 진행 일정 등을 충분히 협의한 후 진행됩니다.<br />
+원하시는 분위기, 사용 목적, 참고 레퍼런스 등 구체적인 정보를 함께 전달해 주시면 작업 방향을 보다 정확하게 파악할 수 있으며, 높은 완성도의 결과물을 제작하는 데 도움이 됩니다.</div>
               </li>
               <li className="parrow" aria-hidden="true">→</li>
               <li className="pstep" tabIndex={0}>
                 <div className="pstep__num">2</div>
                 <div className="pstep__label">견적</div>
-                <div className="pstep__detail" role="tooltip">Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</div>
+                <div className="pstep__detail" role="tooltip"><strong>견적 산정</strong><br />
+                <br />
+                상담을 통해 작업 범위와 일정이 확정되면, 해당 내용에 따라 견적이 산정됩니다.</div>
               </li>
               <li className="parrow" aria-hidden="true">→</li>
               <li className="pstep" tabIndex={0}>
                 <div className="pstep__num">3</div>
                 <div className="pstep__label">데모</div>
-                <div className="pstep__detail" role="tooltip">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos.</div>
+                <div className="pstep__detail" role="tooltip"><strong>데모 전달 및 피드백</strong><br />
+                <br />
+                의뢰 내용을 바탕으로 제작한 데모 버전을 전달드립니다.<br />
+데모를 통해 음악의 방향성과 완성도를 함께 확인하며, 피드백 및 세부적인 수정 사항을 전달하는 단계입니다.</div>
               </li>
               <li className="parrow" aria-hidden="true">→</li>
               <li className="pstep" tabIndex={0}>
                 <div className="pstep__num">4</div>
                 <div className="pstep__label">수정</div>
-                <div className="pstep__detail" role="tooltip">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.</div>
+                <div className="pstep__detail" role="tooltip"><strong>작업물 수정</strong><br />
+                <br />
+                데모 단계에서 전달해 주신 피드백과 수정 사항을 반영하여 작업을 보완하고 완성도를 높여갑니다.<br />
+                클라이언트가 원하시는 결과물에 도달할 때까지 데모 전달과 수정 과정을 충분한 협의를 통해 반복하며 작업을 진행합니다.</div>
               </li>
               <li className="parrow" aria-hidden="true">→</li>
               <li className="pstep" tabIndex={0}>
                 <div className="pstep__num">5</div>
-                <div className="pstep__label">납품</div>
-                <div className="pstep__detail" role="tooltip">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</div>
+                <div className="pstep__label">완성</div>
+                <div className="pstep__detail" role="tooltip"><strong>완성 및 전달</strong><br />
+                <br />
+                데모와 수정 과정을 거쳐 최종 완성된 작업물을 전달해 드립니다.<br />
+                최종 결과물을 확인하신 후 작업이 마무리되며, 협의된 형식에 맞춰 파일을 전달해 드립니다.</div>
               </li>
             </ol>
           </div>
@@ -519,14 +544,14 @@ export default function Home() {
       <section className="section" id="contact">
         <div className="wrap">
           <header className="sec-head reveal">
-            <span className="mono sec-index">04 — Contact</span>
-            <h2 className="sec-title">Let&apos;s talk.</h2>
+            <span className="mono sec-index">04 — 문의 / 신청</span>
+            <h2 className="sec-title">문의 / 신청</h2>
           </header>
           <div className="contact-grid">
             <div className="contact-aside reveal">
-              <button type="button" className="contact-mail" id="mailCopy" data-email="jw7581171@gmail.com">jw7581171@gmail.com</button> 
+              <button type="button" className="contact-mail" id="mailCopy" data-email="ryupassion98@gmail.com">ryupassion98@gmail.com</button> 
               <p></p>
-              <p>it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+              <p> 첨부 파일의 용량이 커 전송이 어려운 경우에는 위의 이메일로 Drive 등의 공유 링크를 보내주시거나, 첨부 가능한 다른 방법을 이용해 전달해 주시면 감사하겠습니다.</p>
               
             </div>
             <form className="contact reveal" id="contactForm">
@@ -540,14 +565,14 @@ export default function Home() {
               </div>
               <label>프로젝트 유형
                 <select name="type" defaultValue="커미션">
-                  <option>커미션</option>
+                  <option value="">선택하세요</option>
                   <option>외주</option>
-                  <option>편곡 · 리마스터</option>
-                  <option>기타 / 상담</option>
+                  <option>커미션</option>
+                  <option>기타 / 문의</option>
                 </select>
               </label>
               <label>내용
-                <textarea name="message" rows={5} required placeholder="원하는 분위기, 예산, 일정 등을 자유롭게 적어주세요."></textarea>
+                <textarea name="message" rows={5} required placeholder="원하시는 분위기, 사용 목적, 참고 레퍼런스 등 구체적인 정보를 함께 전달해 주시면 작업 방향을 보다 정확하게 파악할 수 있습니다. "></textarea>
               </label>
               <div className="field">
                 <span className="field-label">파일 첨부 <span className="label-opt">(모든 형식 · 드래그 또는 클릭 · 큰 파일 자동 업로드)</span></span>
@@ -566,7 +591,7 @@ export default function Home() {
 
       <footer className="footer">
         <div className="wrap footer__inner">
-          <a href="#home" className="footer__mark">유정열의 작곡세상<span>.music</span></a>
+          <a href="#home" className="footer__mark">Sample<span>.music</span></a>
           <div className="footer__links">
             <a href="https://www.youtube.com/@ryupassion" target="_blank" rel="noopener noreferrer">YouTube</a>
             <a href="#" target="_blank" rel="noopener noreferrer">SoundCloud</a>
