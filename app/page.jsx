@@ -1,8 +1,22 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    setTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === 'light' ? 'dark' : 'light';
+    if (next === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    else document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    setTheme(next);
+  };
+
   useEffect(() => {
     // ===== 네비게이션: 최상단=상단바, 스크롤 시=좌측 스파이 =====
     const sidenav = document.getElementById('sidenav');
@@ -313,6 +327,9 @@ export default function Home() {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
       document.removeEventListener('keydown', onEsc);
+      if (navToggle) navToggle.removeEventListener('click', onToggle);
+      if (topbarLinks) topbarLinks.querySelectorAll('a').forEach((a) => a.removeEventListener('click', closeMenu));
+      if (topbarLinks) topbarLinks.classList.remove('open');
       if (io) io.disconnect();
       document.body.classList.remove('scrolled');
       document.body.style.overflow = '';
@@ -321,6 +338,15 @@ export default function Home() {
 
   return (
     <>
+      <button
+        type="button"
+        className="theme-toggle"
+        aria-label={theme === 'light' ? '다크모드로 전환' : '라이트모드로 전환'}
+        onClick={toggleTheme}
+      >
+        {theme === 'light' ? '☾' : '☀'}
+      </button>
+
       <header className="topbar" id="topbar">
         <div className="topbar__inner">
           <a href="#home" className="topbar__logo">Sample<span>.music</span></a>
@@ -373,7 +399,7 @@ export default function Home() {
       <section className="section" id="about">
         <div className="wrap">
           <header className="sec-head reveal">
-            <span className="mono sec-index">01 — 소개</span>
+            <span className="mono sec-index"><strong>01 — 소개</strong></span>
             <h2 className="sec-title">About</h2>
           </header>
           <div className="about">
@@ -393,12 +419,11 @@ export default function Home() {
                 <li>Animation</li>
                 <li>Game</li>
                 <li>Movie</li>
-                <li>advertisement</li>
-          
+                <li>Advertisement</li>
               </ul>
             </div>
             <aside className="about__profile reveal">
-              <span className="mono profile__label">PROFILE</span>
+              <span className="mono profile__label"><strong>PROFILE</strong></span>
               <dl className="profile">
                 <div className="profile__row"><dt>Name / Nickname</dt><dd>유정열 / 0000</dd></div>
                 <div className="profile__row"><dt>E mail</dt><dd>ryupassion98@gmail.com</dd></div>
@@ -413,7 +438,7 @@ export default function Home() {
       <section className="section" id="works">
         <div className="wrap">
           <header className="sec-head reveal">
-            <span className="mono sec-index">02 — 작업물</span>
+            <span className="mono sec-index"><strong>02 — 작업물</strong></span>
             <h2 className="sec-title">Portfolio</h2>
           </header>
           <div className="works">
@@ -475,7 +500,7 @@ export default function Home() {
       <section className="section" id="services">
         <div className="wrap">
           <header className="sec-head reveal">
-            <span className="mono sec-index">03 — 안내</span>
+            <span className="mono sec-index"><strong>03 — 안내</strong></span>
             <h2 className="sec-title">Commission</h2>
           </header>
           <div className="commission">
@@ -544,7 +569,7 @@ export default function Home() {
       <section className="section" id="contact">
         <div className="wrap">
           <header className="sec-head reveal">
-            <span className="mono sec-index">04 — 문의 / 신청</span>
+            <span className="mono sec-index"><strong>04 — 문의 / 신청</strong></span>
             <h2 className="sec-title">문의 / 신청</h2>
           </header>
           <div className="contact-grid">
@@ -600,6 +625,15 @@ export default function Home() {
           <span className="footer__copy mono">© 2026 YU JEONG-YEOL</span>
         </div>
       </footer>
+
+      <button
+        type="button"
+        className="to-top"
+        aria-label="맨 위로"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
+        TOP
+      </button>
 
       <div className="modal" id="workModal" aria-hidden="true">
         <div className="modal__backdrop" data-close></div>
